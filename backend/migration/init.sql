@@ -125,3 +125,53 @@ INSERT INTO tasks (id, schedule_id, description, status) VALUES
 INSERT INTO tasks (id, schedule_id, description, status) VALUES
 ('90eebc99-9c0b-4ef8-bb6d-6bb9bd380a34', '33eebc99-9c0b-4ef8-bb6d-6bb9bd380a25', 'Assist with grocery shopping list', 'pending'),
 ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a35', '33eebc99-9c0b-4ef8-bb6d-6bb9bd380a25', 'Water plants', 'pending');
+
+INSERT INTO schedules (id, client_name, shift_time, location, status) VALUES
+('30eebc99-9c0b-4ef8-bb6d-6bb9bd380a32', 'Olivia Green', NOW() + INTERVAL '3 day', '222 Cedar Dr, Austin, TX', 'upcoming'),
+('40eebc99-9c0b-4ef8-bb6d-6bb9bd380a33', 'Peter Black', NOW() - INTERVAL '6 hour', '333 Maple Ave, Denver, CO', 'in-progress'),
+('50eebc99-9c0b-4ef8-bb6d-6bb9bd380a34', 'Quinn Taylor', NOW() + INTERVAL '1 week', '444 Spruce St, Chicago, IL', 'upcoming'),
+('60eebc99-9c0b-4ef8-bb6d-6bb9bd380a35', 'Rachel King', NOW() - INTERVAL '5 day', '555 Walnut Blvd, Boston, MA', 'completed'),
+('70eebc99-9c0b-4ef8-bb6d-6bb9bd380a36', 'Sam Clark', NOW() - INTERVAL '1 day', '666 Pine St, Dallas, TX', 'completed'); 
+
+UPDATE schedules
+SET start_time = NOW() - INTERVAL '6 hour',
+    start_latitude = 39.7392,
+    start_longitude = -104.9903
+WHERE id = '40eebc99-9c0b-4ef8-bb6d-6bb9bd380a33';
+
+UPDATE schedules
+SET start_time = NOW() - INTERVAL '5 day' - INTERVAL '8 hour',
+    start_latitude = 42.3601,
+    start_longitude = -71.0589,
+    end_time = NOW() - INTERVAL '5 day' - INTERVAL '6 hour',
+    end_latitude = 42.3601,
+    end_longitude = -71.0589
+WHERE id = '60eebc99-9c0b-4ef8-bb6d-6bb9bd380a35';
+
+UPDATE schedules
+SET start_time = NOW() - INTERVAL '1 day' - INTERVAL '3 hour',
+    start_latitude = 32.7767,
+    start_longitude = -96.7970,
+    end_time = NOW() - INTERVAL '1 day' - INTERVAL '1 hour',
+    end_latitude = 32.7767,
+    end_longitude = -96.7970,
+    status = 'completed'
+WHERE id = '70eebc99-9c0b-4ef8-bb6d-6bb9bd380a36';
+
+INSERT INTO tasks (id, schedule_id, description, status) VALUES
+('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a37', '30eebc99-9c0b-4ef8-bb6d-6bb9bd380a32', 'Help with grocery shopping', 'pending'),
+('b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a38', '30eebc99-9c0b-4ef8-bb6d-6bb9bd380a32', 'Light cleaning of living room', 'pending');
+
+-- Insert tasks for Peter Black (in-progress) - no change
+INSERT INTO tasks (id, schedule_id, description, status) VALUES
+('c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a39', '40eebc99-9c0b-4ef8-bb6d-6bb9bd380a33', 'Monitor blood pressure', 'pending'),
+('d0eebc99-9c0b-4ef8-bb6d-6bb9bd380a40', '40eebc99-9c0b-4ef8-bb6d-6bb9bd380a33', 'Prepare lunch', 'completed');
+
+-- Insert tasks for Rachel King (completed) - no change
+INSERT INTO tasks (id, schedule_id, description, status) VALUES
+('e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a41', '60eebc99-9c0b-4ef8-bb6d-6bb9bd380a35', 'Assist with walking exercise', 'completed'),
+('f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a42', '60eebc99-9c0b-4ef8-bb6d-6bb9bd380a35', 'Organize medication for the week', 'completed');
+
+INSERT INTO tasks (id, schedule_id, description, status, reason) VALUES
+('01eebc99-9c0b-4ef8-bb6d-6bb9bd380a43', '70eebc99-9c0b-4ef8-bb6d-6bb9bd380a36', 'Pick up prescription', 'completed', NULL), 
+('02eebc99-9c0b-4ef8-bb6d-6bb9bd380a44', '70eebc99-9c0b-4ef8-bb6d-6bb9bd380a36', 'Companionship visit', 'completed', NULL); 
