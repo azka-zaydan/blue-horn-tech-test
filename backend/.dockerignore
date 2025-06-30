@@ -1,0 +1,8 @@
+# Avoid copying unnecessary files into the image
+.git
+.gitignore
+*.md
+*.log
+Dockerfile
+docker-compose.yml
+tmp/

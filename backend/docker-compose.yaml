@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: evv_postgres_db
+    environment:
+      POSTGRES_DB: evvlogger
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d evvlogger"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile # Refers to the Dockerfile in the current context
+    container_name: evv_go_backend
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    environment:
+      PORT: 8080
+      DB_HOST: db # This refers to the 'db' service name in docker-compose
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: evvlogger
+    depends_on:
+      db:
+        condition: service_healthy # Ensure DB is healthy before starting backend
+    restart: unless-stopped
+
+volumes:
+  db_data:
