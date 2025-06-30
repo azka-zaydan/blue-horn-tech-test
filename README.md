@@ -14,7 +14,7 @@ This repository contains a full-stack application with a Go backend and a React 
   - [Unit Testing](#unit-testing)
 - [Frontend](#frontend)
 - [Database](#database)
-- [Development](#development)
+- [Public Deployments](#public-deployments)
 - [Useful Links](#useful-links)
 
 ---
@@ -195,6 +195,16 @@ See [frontend/README.md](frontend/README.md) for more details.
   - User: `postgres`
   - Password: `postgres`
   - Database: `evvlogger`
+
+---
+
+## Public Deployments
+
+- **Public Deployed Backend:**  
+  [https://blue-horn-be-priv-production.up.railway.app/](https://blue-horn-be-priv-production.up.railway.app/)
+
+- **Public Deployed Frontend:**  
+  [https://blue-horn-fe-priv.vercel.app/](https://blue-horn-fe-priv.vercel.app/)
 
 ---
 
