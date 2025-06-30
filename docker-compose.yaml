@@ -1,0 +1,61 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: evv_postgres_db
+    environment:
+      POSTGRES_DB: evvlogger
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      # This line mounts your SQL file into the container's initialization directory
+      - ./backend/migration/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d evvlogger"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend # Specifies that the build context is the 'backend' directory
+      dockerfile: Dockerfile
+    container_name: evv_go_backend
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./backend/.env # Path to the .env file from the root
+    environment:
+      PORT: 8080
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: evvlogger
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=${VITE_API_URL}
+    container_name: evv_react_frontend
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./frontend/.env
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  db_data:
